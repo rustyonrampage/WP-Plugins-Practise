@@ -1,0 +1,1 @@
+This is supposed to show list of posts
