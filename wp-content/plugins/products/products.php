@@ -33,5 +33,18 @@ function product_cpt_deactivation() {
 register_deactivation_hook( __FILE__, 'product_cpt_deactivation' );
 
 
+add_filter('template_include', 'products_template');
+function products_template( $template ) {
+  if ( is_post_type_archive('product') ) {
+    $theme_files = array('archive-products.php','template/archive-products.php');
+    $exists_in_theme = locate_template($theme_files, false);
+    if ( $exists_in_theme != '' ) {
+      return $exists_in_theme;
+    } else {
+      return plugin_dir_path(__FILE__) . 'template/archive-products.php';
+    }
+  }
+  return $template;
+}
 
 ?>
