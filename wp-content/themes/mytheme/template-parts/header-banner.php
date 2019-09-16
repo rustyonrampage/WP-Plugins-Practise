@@ -3,6 +3,8 @@
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4 pt-1">
         <a class="text-muted" href="<?php print get_bloginfo('rss_url'); ?>">Subscribe</a>
+        |
+        <a class="text-muted" href="<?php print get_bloginfo('wpurl')."/product"; ?>">Products</a>
       </div>
       <div class="col-4 text-center">
         <a  class="blog-header-logo text-dark" href="<?php print get_bloginfo('wpurl'); ?>"><?php print get_bloginfo('name') ; ?></a>
