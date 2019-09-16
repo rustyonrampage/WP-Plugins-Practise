@@ -47,4 +47,10 @@ function products_template( $template ) {
   return $template;
 }
 
+function products_load_css() {
+  $plugin_url = plugin_dir_url( __FILE__ );
+  wp_enqueue_style( 'product_styles', $plugin_url . 'assets/css/product_style.css' );
+}
+add_action( 'wp_enqueue_scripts', 'products_load_css' );
+
 ?>

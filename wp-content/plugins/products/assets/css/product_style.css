@@ -1,0 +1,6 @@
+
+.product_card_img{
+    height: 250px !important;
+    width: 100%;
+    object-fit: cover
+}
