@@ -14,8 +14,7 @@ function product_cpt(){
             'add_new_item' => "Add new Product",
             'edit_item' => 'Edit Product'
         ),
-        'supports' => array('title', 'editor', 'comments', 'revisions', 'author',
-                            'thumbnail', 'custom-fields', 'post-formats'),
+        'supports' => array('title', 'editor', 'thumbnail'),
         'public' => true,
         'has_archive' => true
     ));
@@ -52,5 +51,50 @@ function products_load_css() {
   wp_enqueue_style( 'product_styles', $plugin_url . 'assets/css/product_style.css' );
 }
 add_action( 'wp_enqueue_scripts', 'products_load_css' );
+
+
+// adding fields to CPT
+function product_add_custom_box()
+{
+    //$screens = ['post', 'wporg_cpt'];
+    $screens = ['product'];
+    foreach ($screens as $screen) {
+        add_meta_box(
+            'product_box_id',           // Unique ID
+            'Product Details',  // Box title
+            'product_custom_box_html',  // Content callback, must be of type callable
+            $screen                   // Post type
+        );
+    }
+}
+function product_custom_box_html($post)
+{
+    $product_spec_value = get_post_meta($post->ID, 'product_box_id');
+    if(count($product_spec_value)>0)
+        $product_spec_value = $product_spec_value[0];
+
+    $a = 'a';
+    ?>
+    <label for="product_specs">A custom field</label>
+    <select name="product_specs"  class="postbox">
+        <option value="">Select something...</option>
+        <option value="something" <?php $product_spec_value == "something" ? print "selected" : "" ?> >Something 1</option>
+        <option value="else" <?php $product_spec_value == "else" ? print "selected" : "" ?>>Else xzc</option>
+    </select>
+    <?php
+}
+add_action('add_meta_boxes', 'product_add_custom_box');
+
+function product_save_postdata($post_id)
+{
+    if (array_key_exists('product_specs', $_POST)) {
+        update_post_meta(
+            $post_id,
+            'product_box_id',
+            $_POST['product_specs']
+        );
+    }
+}
+add_action('save_post', 'product_save_postdata');
 
 ?>
